@@ -1,0 +1,100 @@
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 512Mi
+
+bpf:
+  masquerade: true
+  ctTcpMax: 524288
+  ctAnyMax: 262144
+
+cgroup:
+  autoMount:
+    enabled: true
+  hostRoot: /run/cilium/cgroupv2
+
+envoy:
+  enabled: true
+gatewayAPI:
+  enabled: true
+
+hubble:
+  enabled: true
+  metrics:
+    enableOpenMetrics: true
+    enabled:
+    - dns:query;ignoreAAAA
+    - drop
+    - tcp
+    - flow
+    - icmp
+    - http
+    - port-distribution
+
+  relay:
+    enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+
+  ui:
+    enabled: true
+    backend:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+    frontend:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+
+ipam:
+  mode: kubernetes
+
+k8sServiceHost: auto
+k8sServicePort: "6443"
+
+kubeProxyReplacement: true
+
+operator:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  replicas: 2
+  prometheus:
+    enable: true
+    serviceMonitor:
+      enabled: true
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+
+routingMode: native
+
+ipv4NativeRoutingCIDR: "10.244.0.0/16"
+
+ipv4:
+  enabled: true
+
+autoDirectNodeRoutes: true
